@@ -54,7 +54,7 @@ def run(ctx):
 
     #10 minute incubation on mag deck
     mag_deck.engage()
-    ctx.delay(600)
+    ctx.delay(300)
 
     p300m.transfer(50, mag_cols, liq_trash_cols, new_tip="always")
 
@@ -63,7 +63,7 @@ def run(ctx):
         Washes with ethanol, designed to reuse tips to save plastic.
         """
         p300m.pick_up_tip(t4.well("A1"))
-        p300m.transfer(200, etoh, [col[0].top() for col in mag_cols], new_tip="never")
+        p300m.transfer(100, etoh, [col[0].top() for col in mag_cols], new_tip="never")
 
         #Can add ethanol incubation here if neccesary
         p300m.return_tip()
@@ -77,6 +77,15 @@ def run(ctx):
     	add_Remove_Etoh(st, trash_tips=True)
 
     wash()
+
+    ctx.delay(300)    
+    mag_deck.disengage()
+    #Add 45 water
+    #Delay 1 min
+    mag_deck.egnage()
+    ctx.delay(180)
+    #Transfer to Fresh DNA plate 35 µL
+
 
 
 
