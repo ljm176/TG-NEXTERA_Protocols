@@ -8,7 +8,7 @@ metadata = {
 from math import ceil
 
 def run(ctx):
-    nsamples = 4
+    nsamples = 8
     nCols = ceil(nsamples/8)
 
     mag_deck = ctx.load_module('magnetic module gen2', '4')
@@ -16,7 +16,7 @@ def run(ctx):
     mag_plate = mag_deck.load_labware(
         'nest_96_wellplate_100ul_pcr_full_skirt')
 
-    reservoir_12 = ctx.load_labware('nest_12_reservoir_15ml', 2)
+    reservoir_12 = ctx.load_labware('moas_12rows', 2)
     beads = reservoir_12.wells_by_name()["A1"]
     h2o = reservoir_12.wells_by_name()["A2"]
 
@@ -31,9 +31,10 @@ def run(ctx):
     t2 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 6)
     t3 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 3)
     t4 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 8)
+    t5 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 10)
 
     if nCols==12: 
-        st = t3.well("A1")
+        st = t3.wells()[0]
     elif nCols>6:
         st = t2.wells()[8*2*(nCols-6)]
     else:
@@ -42,7 +43,7 @@ def run(ctx):
     p300m = ctx.load_instrument(
         "p300_multi_gen2",
         "left",
-        tip_racks=[t1, t2, t3, t4])
+        tip_racks=[t1, t2, t3, t4, t5])
 
     
 
@@ -82,7 +83,8 @@ def run(ctx):
 
     ctx.delay(300)    
     mag_deck.disengage()
-    p300m.transfer(45, h2o, [col[0].top() for col in mag_cols], new_tip="once")
+
+    p300m.transfer(45, h2o, mag_cols, mix_after=(10, 50), new_tip="always", trash=False)
     ctx.delay(60)
     mag_deck.engage()
     ctx.delay(180)
