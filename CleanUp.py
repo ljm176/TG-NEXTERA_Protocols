@@ -20,10 +20,11 @@ def run(ctx):
     beads = reservoir_12.wells_by_name()["A1"]
     h2o = reservoir_12.wells_by_name()["A2"]
 
-    etoh_res = ctx.load_labware("agilent_1_reservoir_290ml", 7)
+    etoh_res = ctx.load_labware("agilent_1_reservoir_290ml", 5)
     etoh = etoh_res["A1"]
-    liq_trash_res = ctx.load_labware("usascientific_96_wellplate_2.4ml_deep", 1)
+    liq_trash_res = ctx.load_labware("usascientific_96_wellplate_2.4ml_deep", 7)
 
+    clean_DNA = ctx.load_labware("nest_96_wellplate_100ul_pcr_full_skirt", 1)
 
 
     t1 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 9)
@@ -47,6 +48,7 @@ def run(ctx):
 
     mag_cols = mag_plate.columns()[0:nCols]
     liq_trash_cols = liq_trash_res.columns()[0:nCols]
+    dna_cols = clean_DNA.columns()[0:nCols]
 
     p300m.transfer(45, beads, mag_cols, mix_before = (2, 200), mix_after=(3, 50), new_tip="always")
     #Five minute incubation
@@ -80,27 +82,12 @@ def run(ctx):
 
     ctx.delay(300)    
     mag_deck.disengage()
-    #Add 45 water
-    #Delay 1 min
-    mag_deck.egnage()
+    p300m.transfer(45, h2o, [col[0].top() for col in mag_cols], new_tip="once")
+    ctx.delay(60)
+    mag_deck.engage()
     ctx.delay(180)
-    #Transfer to Fresh DNA plate 35 µL
 
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
+    p300m.transfer(35, mag_cols, dna_cols, new_tip="always", touch_tip=True)
 
 
 
