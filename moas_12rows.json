@@ -1,0 +1,216 @@
+{
+    "ordering": [
+        [
+            "A1"
+        ],
+        [
+            "A2"
+        ],
+        [
+            "A3"
+        ],
+        [
+            "A4"
+        ],
+        [
+            "A5"
+        ],
+        [
+            "A6"
+        ],
+        [
+            "A7"
+        ],
+        [
+            "A8"
+        ],
+        [
+            "A9"
+        ],
+        [
+            "A10"
+        ],
+        [
+            "A11"
+        ],
+        [
+            "A12"
+        ]
+    ],
+    "brand": {
+        "brand": "MOAS",
+        "brandId": []
+    },
+    "metadata": {
+        "displayName": "MOAS 12 Reservoir 21000 µL",
+        "displayCategory": "reservoir",
+        "displayVolumeUnits": "µL",
+        "tags": []
+    },
+    "dimensions": {
+        "xDimension": 127.8,
+        "yDimension": 86,
+        "zDimension": 44
+    },
+    "wells": {
+        "A1": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 13.94,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A2": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 23.04,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A3": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 32.14,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A4": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 41.24,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A5": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 50.34,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A6": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 59.44,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A7": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 68.54,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A8": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 77.64,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A9": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 86.74,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A10": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 95.84,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A11": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 104.94,
+            "y": 43.1,
+            "z": 4.8
+        },
+        "A12": {
+            "depth": 39.2,
+            "totalLiquidVolume": 21000,
+            "shape": "rectangular",
+            "xDimension": 8.3,
+            "yDimension": 71.88,
+            "x": 114.04,
+            "y": 43.1,
+            "z": 4.8
+        }
+    },
+    "groups": [
+        {
+            "metadata": {
+                "wellBottomShape": "v"
+            },
+            "wells": [
+                "A1",
+                "A2",
+                "A3",
+                "A4",
+                "A5",
+                "A6",
+                "A7",
+                "A8",
+                "A9",
+                "A10",
+                "A11",
+                "A12"
+            ]
+        }
+    ],
+    "parameters": {
+        "format": "irregular",
+        "quirks": [
+            "centerMultichannelOnWells",
+            "touchTipDisabled"
+        ],
+        "isTiprack": false,
+        "isMagneticModuleCompatible": false,
+        "loadName": "moas_12rows"
+    },
+    "namespace": "custom_beta",
+    "version": 1,
+    "schemaVersion": 2,
+    "cornerOffsetFromSlot": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    }
+}
