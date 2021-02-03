@@ -48,13 +48,17 @@ def run(ctx):
     	"right",
     	tip_racks=[t3])
 
-    
+    nCols = ceil(nsamples/8)
 
     #add master mix to wells
-    p300s.distribute(21, kappa_mm, thermocycler_plate.wells()[0:nsamples])
-
-
-    nCols = ceil(nsamples/8)
+    p300s.pick_up_tip()
+    for c in range(nCols):
+        p300s.aspirate(160, kappa_mm)
+        for w in range(8):
+            p300s.dispense(17.5, thermocycler_plate.wells()[w+c])
+            p300s.touch_tip()
+        p300s.blow_out(kappa_mm)
+    p300s.drop_tip()
 
 
     #Transfer from DNA plate
@@ -66,7 +70,8 @@ def run(ctx):
     p20m.transfer(2.5, primerCols, thermoCols, new_tip="always", touch_tip=True, mix_after=(1, 10))
     p20m.transfer(2.5, DNACols, thermoCols, new_tip="always", mix_after=(2, 20), touch_tip=True)
 
-    #Function to define touchdown PCR cycle
+    ctx.pause("Add plate seal to PCR Plate")
+    #Function to define PCR cycle
     def stp(temp, hold):
         return {"temperature": temp, "hold_time_seconds": hold}
     steps = []
