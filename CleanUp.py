@@ -11,12 +11,12 @@ def run(ctx):
     nsamples = 8
     nCols = ceil(nsamples/8)
 
-    mag_deck = ctx.load_module('magnetic module gen2', '4')
+    mag_deck = ctx.load_module('magdeck', '4')
     mag_deck.disengage()
     mag_plate = mag_deck.load_labware(
         'nest_96_wellplate_100ul_pcr_full_skirt')
 
-    reservoir_12 = ctx.load_labware('moas_12rows', 2)
+    reservoir_12 = ctx.load_labware('usascientific_12_reservoir_22ml', 2)
     beads = reservoir_12.wells_by_name()["A1"]
     h2o = reservoir_12.wells_by_name()["A2"]
 
@@ -34,7 +34,7 @@ def run(ctx):
     t5 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 10)
 
     if nCols==12: 
-        st = t3.wells()[0]
+        st = t3.well("A1")
     elif nCols>6:
         st = t2.wells()[8*2*(nCols-6)]
     else:
@@ -42,7 +42,7 @@ def run(ctx):
 
     p300m = ctx.load_instrument(
         "p300_multi_gen2",
-        "left",
+        "right",
         tip_racks=[t1, t2, t3, t4, t5])
 
     
@@ -51,7 +51,7 @@ def run(ctx):
     liq_trash_cols = liq_trash_res.columns()[0:nCols]
     dna_cols = clean_DNA.columns()[0:nCols]
 
-    p300m.transfer(45, beads, mag_cols, mix_before = (2, 200), mix_after=(3, 50), new_tip="always")
+    p300m.transfer(41, beads, mag_cols, mix_before = (2, 200), mix_after=(3, 50), new_tip="always")
     #Five minute incubation
     ctx.delay(300)
 
@@ -83,8 +83,7 @@ def run(ctx):
 
     ctx.delay(300)    
     mag_deck.disengage()
-
-    p300m.transfer(45, h2o, mag_cols, mix_after=(10, 50), new_tip="always", trash=False)
+    p300m.transfer(45, h2o, [col[0].top() for col in mag_cols], new_tip="once")
     ctx.delay(60)
     mag_deck.engage()
     ctx.delay(180)
