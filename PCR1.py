@@ -69,6 +69,7 @@ def run(ctx):
     p20m.transfer(2, primerCols, thermoCols, new_tip="always", touch_tip=True, mix_after=(1, 10))
     p20m.transfer(2, DNACols, thermoCols, new_tip="always", mix_after=(2, 20), touch_tip=True)
 
+    ctx.pause("Add plate seal to PCR Plate")
     #Function to define touchdown PCR cycle
     def stp(temp, hold):
         return {"temperature": temp, "hold_time_seconds": hold}
