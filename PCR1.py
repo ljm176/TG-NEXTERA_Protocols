@@ -46,13 +46,21 @@ def run(ctx):
     	"right",
     	tip_racks=[t2, t3])
 
-
+    nCols = ceil(nsamples/8)
 
     #add master mix to wells
-    p300s.distribute(21, phusion_mm, thermocycler_plate.wells()[0:nsamples])
+    p300s.pick_up_tip()
+    for c in range(nCols):
+        p300s.aspirate(180, phusion_mm)
+        for w in range(8):
+            p300s.dispense(21, thermocycler_plate.wells()[w+c])
+            p300s.touch_tip()
+        p300s.blow_out(phusion_mm)
+    p300s.drop_tip()
 
 
-    nCols = ceil(nsamples/8)
+
+    
     #Transfer from DNA plate
     DNACols = DNA_plate.columns()[0:nCols]
     thermoCols = thermocycler_plate.columns()[0:nCols]
