@@ -7,7 +7,7 @@ metadata = {
 
 #Set number of samples (Note that protocol will run full columns)
 
-nsamples = 15
+nsamples = 96
 from math import ceil
 
 def run(ctx):
@@ -25,15 +25,16 @@ def run(ctx):
 
     temp_deck.set_temperature(4)
     phusion_mm = temp_rack.wells_by_name()["A1"]
+    phusion_mm_2 = temp_rack.wells_by_name()["B1"]
 
-    DNA_plate = ctx.load_labware('nest_96_wellplate_100ul_pcr_full_skirt', '3')
+    DNA_plate = ctx.load_labware('nest_96_wellplate_100ul_pcr_full_skirt', '5')
 
-    primer_plate = ctx.load_labware('nest_96_wellplate_100ul_pcr_full_skirt', '4')
+    primer_plate = ctx.load_labware('nest_96_wellplate_100ul_pcr_full_skirt', '2')
     
 
-    t1 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 6)
-    t2 = ctx.load_labware("opentrons_96_filtertiprack_20ul", 9)
-    t3 = ctx.load_labware("opentrons_96_filtertiprack_20ul", 2)
+    t1 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 9)
+    t2 = ctx.load_labware("opentrons_96_filtertiprack_20ul", 6)
+    t3 = ctx.load_labware("opentrons_96_filtertiprack_20ul", 3)
 
 
     p300s = ctx.load_instrument(
@@ -51,11 +52,16 @@ def run(ctx):
     #add master mix to wells
     p300s.pick_up_tip()
     for c in range(nCols):
-        p300s.aspirate(180, phusion_mm)
+        if c < nCols/2:
+            src = phusion_mm
+        else:
+            src = phusion_mm_2
+
+        p300s.aspirate(180, src)
         for w in range(8):
-            p300s.dispense(21, thermocycler_plate.wells()[w+c])
+            p300s.dispense(21, thermocycler_plate.wells()[w+(c*8)])
             p300s.touch_tip()
-        p300s.blow_out(phusion_mm)
+        p300s.blow_out(src)
     p300s.drop_tip()
 
 
