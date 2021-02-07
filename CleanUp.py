@@ -1,14 +1,20 @@
 metadata = {
     'apiLevel': '2.5',
-    'protocolName': 'TG Nextera XT index kit - Clean Up',
-    'author': 'Opentrons <protocols@opentrons.com>',
-    'source': 'Custom Protocol Request'
+    'protocolName': 'TG Nextera XT - Clean Up',
+    'author': 'Lachlan Munro (lajamu@biosustain.dtu.dk',
 }
 
+
+#Parts of protocol modified from Opentrons protocol library
+
+#Set number of samples (Note that protocol will run full columns)
+
+nsamples =96
 from math import ceil
 
+
 def run(ctx):
-    nsamples = 90
+
     nCols = ceil(nsamples/8)
 
     mag_deck = ctx.load_module('magdeck', '4')

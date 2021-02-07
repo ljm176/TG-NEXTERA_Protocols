@@ -1,13 +1,15 @@
 metadata = {
     'apiLevel': '2.5',
     'protocolName': 'TG Nextera XT index kit-Step 1',
-    'author': 'Lachlan Munro',
+    'author': 'Lachlan Munro (lajamu@biosustain.dtu.dk',
     'source': 'Custom Protocol Request'
 }
 
 #Set number of samples (Note that protocol will run full columns)
 
 nsamples = 96
+
+
 from math import ceil
 
 def run(ctx):
@@ -64,9 +66,6 @@ def run(ctx):
         p300s.blow_out(src)
     p300s.drop_tip()
 
-
-
-    
     #Transfer from DNA plate
     DNACols = DNA_plate.columns()[0:nCols]
     thermoCols = thermocycler_plate.columns()[0:nCols]
