@@ -2,14 +2,14 @@ metadata = {
     'apiLevel': '2.5',
     'protocolName': 'TG Nextera XT index kit-Step 1',
     'author': 'Lachlan Munro (lajamu@biosustain.dtu.dk',
-    'source': 'Custom Protocol Request'
 }
+
+#Parts of protocol modified from Opentrons protocol library
+
 
 #Set number of samples (Note that protocol will run full columns)
 
 nsamples = 96
-
-
 from math import ceil
 
 def run(ctx):
