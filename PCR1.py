@@ -53,11 +53,7 @@ def run(ctx):
 
     #add master mix to wells
     p300s.pick_up_tip()
-    for c in range(nCols):
-        if c < nCols/2:
-            src = phusion_mm
-        else:
-            src = phusion_mm_2
+    src=phusion_mm
 
         p300s.aspirate(150, src)
         for w in range(8):
