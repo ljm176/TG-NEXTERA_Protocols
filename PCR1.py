@@ -59,9 +59,9 @@ def run(ctx):
         else:
             src = phusion_mm_2
 
-        p300s.aspirate(180, src)
+        p300s.aspirate(150, src)
         for w in range(8):
-            p300s.dispense(21, thermocycler_plate.wells()[w+(c*8)])
+            p300s.dispense(15, thermocycler_plate.wells()[w+(c*8)])
             p300s.touch_tip()
         p300s.blow_out(src)
     p300s.drop_tip()
@@ -71,8 +71,8 @@ def run(ctx):
     thermoCols = thermocycler_plate.columns()[0:nCols]
     primerCols = primer_plate.columns()[0:nCols]
 
-    p20m.transfer(2, primerCols, thermoCols, new_tip="always", touch_tip=True, mix_after=(1, 10))
-    p20m.transfer(2, DNACols, thermoCols, new_tip="always", mix_after=(2, 20), touch_tip=True)
+    p20m.transfer(5, primerCols, thermoCols, new_tip="always", touch_tip=True, mix_after=(1, 10))
+    p20m.transfer(5, DNACols, thermoCols, new_tip="always", mix_after=(2, 20), touch_tip=True)
 
     ctx.pause("Add plate seal to PCR Plate")
     #Function to define touchdown PCR cycle
