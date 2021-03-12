@@ -106,7 +106,7 @@ def run(ctx):
     mag_deck.disengage()
     p300m.transfer(45, h2o, [col[0].top() for col in mag_cols], new_tip="once")
     st += 1
-    ctx.delay(60)
+    ctx.delay(180)
     mag_deck.engage()
     ctx.delay(180)
 
