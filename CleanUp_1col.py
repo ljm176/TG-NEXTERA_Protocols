@@ -59,7 +59,7 @@ def run(ctx):
     #Five minute incubation
     ctx.delay(300)
     #10 minute incubation on mag deck
-    mag_deck.engage(height=8)
+    mag_deck.engage(height=10)
     ctx.delay(300)
 
     p300m.transfer(300, mag_cols, liq_trash_cols, new_tip="always")
@@ -116,7 +116,7 @@ def run(ctx):
     p300m.transfer(45, h2o, [col[0].top() for col in mag_cols], new_tip="once")
     st += 1
     ctx.delay(180)
-    mag_deck.engage(height=8)
+    mag_deck.engage(height=10)
     ctx.delay(600)
 
     p300m.transfer(35, mag_cols, dna_cols, new_tip="always", touch_tip=True)
