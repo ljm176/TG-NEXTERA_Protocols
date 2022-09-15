@@ -17,7 +17,7 @@ def run(ctx):
     mag_deck = ctx.load_module('magnetic module gen2', '4')
     mag_deck.disengage()
     mag_plate = mag_deck.load_labware(
-        'nest_96_wellplate_100ul_pcr_full_skirt')
+        'armadillo_pcr_200')
 
     reservoir_12 = ctx.load_labware('moas_12rows', 2)
     beads = reservoir_12.wells_by_name()["A1"]
@@ -27,7 +27,7 @@ def run(ctx):
     etoh = etoh_res["A1"]
     liq_trash_res = ctx.load_labware("usascientific_96_wellplate_2.4ml_deep", 7)
 
-    clean_DNA = ctx.load_labware("nest_96_wellplate_100ul_pcr_full_skirt", 1)
+    clean_DNA = ctx.load_labware("armadillo_pcr_200", 1)
 
 
     t1 = ctx.load_labware("opentrons_96_tiprack_300ul", 3)
@@ -62,7 +62,7 @@ def run(ctx):
     mag_deck.engage()
     ctx.delay(300)
 
-    p300m.transfer(50, mag_cols, liq_trash_cols, new_tip="always")
+    p300m.transfer(300, mag_cols, liq_trash_cols, new_tip="always")
     st += nCols
 
 
@@ -88,6 +88,12 @@ def run(ctx):
             p300m.aspirate(100, mag_cols[col][0].bottom(0.2))
             p300m.dispense(300, liq_trash_cols[col][0])
             p300m.touch_tip()
+            p300m.aspirate(100, mag_cols[col][0])
+            p300m.aspirate(100, mag_cols[col][0].bottom(0.5))
+            p300m.aspirate(100, mag_cols[col][0].bottom(0.1))
+            p300m.dispense(300, liq_trash_cols[col][0])
+            p300m.touch_tip()
+
             if trash_tips:
                 p300m.drop_tip()
             else:
@@ -111,7 +117,7 @@ def run(ctx):
     st += 1
     ctx.delay(180)
     mag_deck.engage()
-    ctx.delay(180)
+    ctx.delay(600)
 
     p300m.transfer(35, mag_cols, dna_cols, new_tip="always", touch_tip=True)
 
