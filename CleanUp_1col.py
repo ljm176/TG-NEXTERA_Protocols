@@ -52,11 +52,19 @@ def run(ctx):
     liq_trash_cols = liq_trash_res.columns()[0:nCols]
     dna_cols = clean_DNA.columns()[0:nCols]
 
+    for col in mag_cols:
+        p300m.pick_up_tip()
+        p300m.mix(5, 200, beads)
+        p300m.aspirate(41, beads)
+        ctx.delay(seconds=3)
+        p300m.touch_tip()
+        p300m.dispense(41, col[0])
+        p300m.mix(3, 200, col[0])
+        p300m.touch_tip()
+        p300m.drop_tip()
+        st += 1
 
-    p300m.transfer(41, beads, mag_cols, mix_before = (2, 200), mix_after=(3, 50), new_tip="always")
-    st += nCols
-
-    #Five minute incubation
+    #Ten minute incubation with beads in PCR mixture
     ctx.delay(300)
     #10 minute incubation on mag deck
     mag_deck.engage(height=10)
@@ -85,11 +93,13 @@ def run(ctx):
             p300m.pick_up_tip()
             p300m.aspirate(100, mag_cols[col][0])
             p300m.aspirate(100, mag_cols[col][0].bottom(0.5))
+            ctx.delay(seconds=5)
             p300m.aspirate(100, mag_cols[col][0].bottom(0.2))
             p300m.dispense(300, liq_trash_cols[col][0])
             p300m.touch_tip()
             p300m.aspirate(100, mag_cols[col][0])
             p300m.aspirate(100, mag_cols[col][0].bottom(0.5))
+            ctx.delay(seconds=5)
             p300m.aspirate(100, mag_cols[col][0].bottom(0.1))
             p300m.dispense(300, liq_trash_cols[col][0])
             p300m.touch_tip()
@@ -99,26 +109,32 @@ def run(ctx):
             else:
                 p300m.drop_tip(tips[start_tip])
 
-
+    p300m.flow_rate.aspirate = 50
 
     def wash():
     	add_Remove_Etoh(st)
     	add_Remove_Etoh(st, trash_tips=True)	
 
     wash()
+
+    p300m.flow_rate.aspirate = 150
     st += (nCols + 1)
     p300m.reset_tipracks()
     p300m.starting_tip = tips[st]
     #ctx.pause("Remove excess ethanol and return plate to mag-deck then click resume")
 
-    ctx.delay(600)    
+    ctx.delay(900)
     mag_deck.disengage()
-    p300m.transfer(45, h2o, [col[0].top() for col in mag_cols], new_tip="once")
+    p300m.transfer(45, h2o, [col[0] for col in mag_cols],
+                   new_tip="always",
+                   mix_after = (3, 45),
+                   touch_tip=True,
+                   trash=False)
     st += 1
     ctx.delay(180)
     mag_deck.engage(height=10)
     ctx.delay(600)
-
+    p300m.starting_tip = tips[st]
     p300m.transfer(35, mag_cols, dna_cols, new_tip="always", touch_tip=True)
 
 

@@ -1,5 +1,5 @@
 metadata = {
-    'apiLevel': '2.5',
+    'apiLevel': '2.8',
     'protocolName': 'TG Nextera XT - Clean Up',
     'author': 'Lachlan Munro (lajamu@biosustain.dtu.dk',
 }
@@ -9,7 +9,7 @@ metadata = {
 
 #Set number of samples (Note that protocol will run full columns)
 
-nsamples =96
+nsamples = 96
 from math import ceil
 
 
@@ -17,7 +17,7 @@ def run(ctx):
 
     nCols = ceil(nsamples/8)
 
-    mag_deck = ctx.load_module('magdeck', '4')
+    mag_deck = ctx.load_module('magnetic module gen2', '4')
     mag_deck.disengage()
     mag_plate = mag_deck.load_labware(
         'nest_96_wellplate_100ul_pcr_full_skirt')
@@ -33,12 +33,13 @@ def run(ctx):
     clean_DNA = ctx.load_labware("nest_96_wellplate_100ul_pcr_full_skirt", 1)
 
 
-    t1 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 3)
-    t2 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 6)
-    t3 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 8)
-    t4 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 9)
-    t5 = ctx.load_labware("opentrons_96_filtertiprack_200ul", 11)
-
+    t1 = ctx.load_labware("opentrons_96_tiprack_300ul", 3)
+    t2 = ctx.load_labware("opentrons_96_tiprack_300ul", 6)
+    t3 = ctx.load_labware("opentrons_96_tiprack_300ul", 8)
+    t4 = ctx.load_labware("opentrons_96_tiprack_300ul", 9)
+    t5 = ctx.load_labware("opentrons_96_tiprack_300ul", 11)
+    
+    
     p300m = ctx.load_instrument(
         "p300_multi_gen2",
         "right",
@@ -68,8 +69,6 @@ def run(ctx):
     st += nCols
 
 
-
-
     def add_Remove_Etoh(start_tip, trash_tips=False):
         """
         Washes with ethanol, designed to reuse tips to save plastic.
@@ -85,7 +84,16 @@ def run(ctx):
         #Can add ethanol incubation here if neccesary
         p300m.reset_tipracks()
         p300m.starting_tip = tips[start_tip]
-        p300m.transfer(200, mag_cols, liq_trash_cols, trash=trash_tips, new_tip="always", touch_tip=True)
+        for col in list(range(nCols)):
+            p300m.pick_up_tip()
+            p300m.aspirate(100, mag_cols[col][0])
+            p300m.aspirate(100, mag_cols[col][0].bottom(0.5))
+            p300m.dispense(300, liq_trash_cols[col][0])
+            p300m.touch_tip()
+            if trash_tips:
+                p300m.drop_tip()
+            else:
+                p300m.drop_tip(tips[start_tip])
 
 
 
@@ -97,12 +105,9 @@ def run(ctx):
     st += (nCols + 1)
     p300m.reset_tipracks()
     p300m.starting_tip = tips[st]
-    ctx.pause("Remove excess ethanol and return plate to mag-deck then click resume")
+    #ctx.pause("Remove excess ethanol and return plate to mag-deck then click resume")
 
-
-
-
-    ctx.delay(300)    
+    ctx.delay(600)    
     mag_deck.disengage()
     p300m.transfer(45, h2o, [col[0].top() for col in mag_cols], new_tip="once")
     st += 1
